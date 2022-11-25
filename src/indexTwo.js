@@ -1,10 +1,10 @@
 import React from 'react'
 import * as ReactDOM from 'react-dom';
-
+//function to format the date passed to localeDateString
 function formatDate(date) {
     return date.toLocaleDateString();
   }
-
+//Avatar functional component with the props object being passed
   function Avatar(props){
     return(
         <img className='Avatar'
@@ -13,10 +13,12 @@ function formatDate(date) {
         />
     )
   }
-
+//UserInfo functional component with props being passed
   function UserInfo(props){
     return (
         <div className='UserInfo'>
+        {/*the props.user here refers to the user passed as a property to the userInfo
+        component */}
             <Avatar user={props.user} />
             <div className='UserInfo-name'>
                 {props.user.name}
@@ -24,11 +26,13 @@ function formatDate(date) {
         </div>
     )
   }
-  
+  //Comment functional compnent with the avatar component and userinfo component nested inside
   function Comment(props) {
     return (
       <div className="Comment">
-      <UserInfo user={props.author}/>
+      {/* here we are putting the property user in userinfo component
+      this will be accesible to components nested inside the userinfo component*/}
+      <UserInfo user={props.author}/> 
         <div className="Comment-text">
           {props.text}
         </div>
@@ -52,7 +56,7 @@ const comment = {
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
+//passing the comment prop to Comment component
 root.render(
     <Comment
     date={comment.date}
