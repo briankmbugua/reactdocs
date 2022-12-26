@@ -27,10 +27,40 @@ const person = {
         return this.firstName + " " + this.lastName;
     }
 }
-
+//the member object borrows the fullname method from the person object
 const member = {
     firstName: 'hege',
     lastName: 'Nilsen'
 }
 let fullName = person.fullName.bind(member);
 document.getElementById('demo').innerHTML = fullName();
+
+//preserving this
+//sometimes the bind() method has to be used to prevent loosing this.
+
+const person1 = {
+    firstName:"John",
+    lastName: "Doe",
+    display: function () {
+      let x = document.getElementById("demo2");
+      x.innerHTML = this.firstName + " " + this.lastName;
+    }
+  }
+
+  person1.display()
+
+  //when a function is used as a callback, this is lost.
+  //e.g will try to display the person name after 3 seconds, 
+  //but it will display undefined instead
+  const person2 = {
+    firstName:"John",
+    lastName: "Doe",
+    display: function () {
+      let x = document.getElementById("demo3");
+      x.innerHTML = this.firstName + " " + this.lastName;
+    }
+  }
+
+  setTimeout(person2.display, 3000); //undefined undefined
+
+//the bind() method solves this problem
