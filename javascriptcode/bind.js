@@ -64,3 +64,27 @@ const person1 = {
   setTimeout(person2.display, 3000); //undefined undefined
 
 //the bind() method solves this problem
+
+const person3= {
+    firstName:"John",
+    lastName: "brian",
+    display: function () {
+      let x = document.getElementById("demo3");
+      x.innerHTML = this.firstName + " " + this.lastName;
+    }
+  }
+
+  let display = person3.display.bind(person3)
+
+  setTimeout(display, 3000)//this will be displayed after 3 seconds
+
+  //in javascript this keyword refers to an object
+  //which object depends on how it used
+  /*
+  1.in an object this refers to the object
+  2.Alone, this refers to the global object
+  3.in a function in strict mode, this is undefined
+  3.in an event this refers to the element that received the event
+  4.methods like call(), apply() and bind can refer this to any object 
+  */
+  

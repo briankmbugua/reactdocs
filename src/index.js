@@ -1,5 +1,5 @@
 import React from 'react'
-import * as ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom/client';
 /*
 HANDLING EVENTS
 Handling events with react is very similar to handling events on  DOM elements
@@ -57,8 +57,23 @@ class Toggle extends React.Component {
     }
 }
 
+class LoggingButton extends React.Component {
+    //this syntax ensures `this` is bound within handClick
+
+    handleClick = () => {
+        console.log('this is:', this);
+    };
+
+    render() {
+        return (
+            <button onClick={this.handleClick}>Click me</button>
+        )
+    }
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Toggle/>)
+root.render(<LoggingButton/>)
 
 /*
 be careful about the meaning of this in JSX callbacks.In javascript class methids are
