@@ -12,4 +12,9 @@ mycar = new Car('ford');
 //the new object created from the car class
 //mycar.hell() this will raise an error
 console.log(Car.hello())
-console.log(mycar)
+console.log(mycar)//Car {carname: 'ford'} the static method hello() is not present in the obj
+                  //created from the Car class
+/*
+usually static methods are used to implement functions that belong to the class as a whole
+but not to any particular object of it. 
+*/

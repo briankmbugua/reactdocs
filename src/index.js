@@ -33,11 +33,16 @@ When you define a component using an ES6 class, a common pattern is for an event
 to be a method on the class
 
 */
+//to bind this you can either use public class fields which make sure this is bound
+//and never lost when used in a callback
+//you can also use bind() to make sure this is not lost
+//you can also use arrow functions in the callback 
 
 class Toggle extends React.Component {
     constructor(props) {
         super(props);
         this.state = {isToggleOn: true};
+        //using bind solution to make sure this is not lost in the callback
         //This binding is necessary to make `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
     }
@@ -59,7 +64,11 @@ class Toggle extends React.Component {
 
 class LoggingButton extends React.Component {
     //this syntax ensures `this` is bound within handClick
-
+    //this is public field syntax
+    //the this keyword inside a method defined using the public class syntax
+    //will always refer to the instance of the class this means you can use public
+    //class syntax to bind this without the need of a .bind() method or an arrow
+    //functio
     handleClick = () => {
         console.log('this is:', this);
     };
@@ -71,13 +80,39 @@ class LoggingButton extends React.Component {
     }
 }
 
+class LogginBtn extends React.Component {
+    handleClick() {
+      console.log('this is:', this);
+    }
+  
+    render() {
+      // This syntax ensures `this` is bound within handleClick
+      //the problem with this syntax is that a different callback is created each time the LogginBtn
+      //renders.
+      return (
+        <button onClick={() => this.handleClick()}>
+          Click me
+        </button>
+      );
+    }
+  }
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Toggle/>)
-root.render(<LoggingButton/>)
+// root.render(<Toggle/>)
+// root.render(<LoggingButton/>)
+root.render(<LogginBtn/>)
 
 /*
-be careful about the meaning of this in JSX callbacks.In javascript class methids are
+be careful about the meaning of this in JSX callbacks.In javascript class methods are
 not bound by default.
 if you forget to bind this.handleClick and pass it to onClick, this will be undefined
 when the function is actually called
 */
+
+//PASSING ARGUMENTS TO EVENT HANDLERS
+/* <button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
+
+<button onClick={this.deleteRow.bind(this, id)}></button> */
+
+//the above two lines are equivalent, and use arrow functions and Function.prototype.bind respectively
+//in both cases the e argument representing the React event will be passed as a second argument after the ID
+//With arrow functions we have to pass it explicitly, but with bind any further arguments are automatically forwaded
