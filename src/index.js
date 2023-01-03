@@ -48,5 +48,67 @@ function LogoutButton(props) {
     )
 }
 
+//in the example below we will create a stateful component called loginControl
+//it will render either <logginButton> or <logoutButton> depending on its current state
+//it will also render a greeting
+class LoginControl extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleLoginClick = this.handleLoginClick.bind(this);
+        this.handleLogoutClick = this.handleLogoutClick.bind(this);
+        this.state = {isLoggedIn: false};
+    }
+
+    handleLoginClick() {
+        this.setState({isLoggedIn: true});
+    }
+
+    handleLogoutClick() {
+        this.setState({isLoggedIn: false});
+    }
+
+    render() {
+        const isLoggedIn = this.state.isLoggedIn;
+        let button;
+        if (isLoggedIn) {
+            button = <LogoutButton onClick={this.handleLogoutClick}/>;
+        } else {
+            button = <LoginButton onClick={this.handleLoginClick}/>;
+        }
+
+        return (
+            <div>
+                <Greeting isLoggedIn={isLoggedIn} />
+                {button}
+            </div>
+        );
+    }
+//another way of conditionally rendering inline elements is to use javascript conditional operator
+//  condition ? true : false
+    // render() {
+    //     const isLoggedIn = this.state.isLoggedIn;
+    //     return (
+    //       <div>
+    //         The user is <b>{isLoggedIn ? 'currently' : 'not'}</b> logged in.
+    //       </div>
+    //     );
+    //   }
+
+      //it can also be used for larger expression although it's less obvious whats happening
+
+    //   render() {
+    //     const isLoggedIn = this.state.isLoggedIn;
+    //     return (
+    //       <div>
+    //         {isLoggedIn
+    //           ? <LogoutButton onClick={this.handleLogoutClick} />
+    //           : <LoginButton onClick={this.handleLoginClick} />
+    //         }
+    //       </div>
+    //     );
+    //   }  
+}
+
+
 const root = ReactDom.createRoot(document.getElementById('root'));
-root.render(<Greeting isLoggedIn={true}/>);
+root.render(<LoginControl/>);
