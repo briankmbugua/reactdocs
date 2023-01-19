@@ -3,21 +3,21 @@ import * as ReactDOM from 'react-dom';
 class Clock extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {date: new Date()};
+        this.state = { date: new Date() };
     }
     componentDidMount() {
-        this.timerId = setInterval(()=> this.tick(), 1000);
+        this.timerId = setInterval(() => this.tick(), 1000);
     }
     componentWillUnmount() {
         clearInterval(this.timerId);
-        
-            }
+
+    }
     tick() {
         this.setState({
             date: new Date()
         })
     }
-    render(){
+    render() {
         return (
             <div>
                 <h1>Hello, world</h1>
@@ -39,4 +39,4 @@ function App() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
-root.render(<App/>)
+root.render(<App />)

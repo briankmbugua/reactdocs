@@ -1,21 +1,42 @@
 import React from 'react'
-import * as ReactDOM from 'react-dom/client';
+import * as ReactDOM from 'react-dom';
+class Clock extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { date: new Date() };
+    }
+    componentDidMount() {
+        this.timerId = setInterval(() => this.tick(), 1000);
+    }
+    componentWillUnmount() {
+        clearInterval(this.timerId);
 
-//The select Tag
-/*
-in html select creates a dropdown list
-<select>
-<option value="grapefruit">GrapeFruit</option>
-<option selected value="coconut">coconut</option>
-</select> 
+    }
+    tick() {
+        this.setState({
+            date: new Date()
+        })
+    }
+    render() {
+        return (
+            <div>
+                <h1>Hello, world</h1>
+                <h2>it is {this.state.date.toLocaleTimeString()}.</h2>
+            </div>
+        )
+    }
+}
 
-the coconut option is initially selected, coz of the selected attribute
-React, instead of using this selected attribute, uses a value attribute
-on the root select tag. This is more convinient in a controlled component because you only need to
-update it in one place
-*/
+function App() {
+    return (
+        <div>
+            <Clock />
+            <Clock />
+            <Clock />
+        </div>
+    )
+}
 
+const root = ReactDOM.createRoot(document.getElementById('root'))
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render()
+root.render(<App />)

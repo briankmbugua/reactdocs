@@ -104,7 +104,7 @@ root.render(<LogginBtn/>)
 /*
 be careful about the meaning of this in JSX callbacks.In javascript class methods are
 not bound by default.
-if you forget to bind this.handleClick and pass it to onClick, this will be undefined
+if you forget to bind this.handleClick and pass it to onClick, 'this' will be undefined
 when the function is actually called
 */
 
