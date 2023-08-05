@@ -10,7 +10,7 @@ class Car {
 mycar = new Car('ford');
 //hello can be called on the class car and not on
 //the new object created from the car class
-//mycar.hell() this will raise an error
+//mycar.hello() this will raise an error
 console.log(Car.hello())
 console.log(mycar)//Car {carname: 'ford'} the static method hello() is not present in the obj
                   //created from the Car class
