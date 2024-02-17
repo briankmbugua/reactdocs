@@ -473,18 +473,208 @@ function MyForm() {
     )
 }
 `
+# onChange
+onChange={(e) => setName(e.target.value)}:This event handler is triggered whenever the user types something in the input field.
+e: Represents the event object
+e.target.valur:Gets the new value entered by the user.
+setName(e.target.value): Calls the setName function to update the name state variable with the new value.
+
+# React Controlled Components
+In React "controlled components" manage input values through their state.State updates flow down to the input, ensuring consistency and allowing other components to react to changes.
+- The value attribute is bound to the name state variable, intially empty
+- The onChange handler updates the name state variable with the new value entered by the user.
+- When the state changes, React re-renders the component, passing the updated state(name) back to the value attribute effectively displaying latest input.
+This creates a two-way binding between the input and the state, keeping the displayed value and internal state synchronized.So, the user sees what they type instantly due to the state update reflecting back into the input field.
+
+# Benefits of Controlled Components
+- Enforces a single source of truth for data in the state.
+- Makes it easier to handle validation and from logic.
+- Enables controlled updates and side effects based on input changes.
+
+# Submitting Forms
+You can control the submit action by adding an event handler in the onSubmit attribute for the <form>
+
+`JavaScript
+function MyForm() {
+    const [name, setName] = useState("");
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        alert(`The name you entered was: ${name}`)
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+        <label>Enter your name:
+        <input type="text" value={name} onChange = {(e) => setName(e.target.value)} />
+        </label>
+        <input tyep="submit" />
+        </form>
+    )
+}
+`
+
+# Multiple Input Fields
+You can control the values of more than one input field by adding a name attribute to each element
+We will initialize our state with an empty object
+To access the fields in the event handler use the event.target.name and event.target.value syntax.
+To update the state, use square brackets[bracket notation] around the property name.
+
+# Write a form with two input fields
+`JavaScript
+function MyForm() {
+    const [inputs, setInputs] = useState({});
+    const handleChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs(values => ({...values, [name]: value}))
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        alert(inputs);
+    }
 
 
+    return (
+        <form onSubmit = {handleSubmit}>
+        <label>Enter your name:
+        <input
+        type = "text"
+        name = "username"
+        values = {inputs.username || ""}
+        onChange={handleChange}
+        />
+        </label>
+        <label>Enter your age:
+        <input
+        type="number"
+        name="age"
+        value={inputs.age || ""}
+        onChange={handleChange}
+        />
+        </label>
+        <input type="submit" />
+        </form>
+    )
+}
+`
+`Note:
+We uss the same event handler function for both input fields, we could write one event handler for each, but this gives us much cleaner code and is the preferred way in React`
+
+# Textarea
+The textarea element in React is slightly different from ordinary HTML.
+In HTML the value of a textarea was the text between the start tag <textarea> and the end tag </textarea>
+In React the value of a textarea is placed in a value attribute.We'll use the useState Hook to manage the value of textarea
+`JavaScript
+function MyForm() {
+    const [textarea, setTextarea] = useState(
+        "The content of textarea goes into the value attribute"
+    );
+
+    const handleChange = (event) => {
+        setTextarea(event.target.value)
+    }
+
+    return (
+        <form>
+        <textarea value={textarea} onChange={handleChange} />
+        </form>
+    )
+}
+`
+
+# Select
+A drop down list, or a select box, in React is also a bit different from HTML.
+in HTML, the selected value in the drop down list wa defined with the selected attribute.
+`HTML
+<select>
+<option value="Ford">Ford</option>
+  <option value="Volvo" selected>Volvo</option>
+  <option value="Fiat">Fiat</option>
+</select>
+`
+
+In React, the selected value is defined with a value atrribute on the select tag
+# Example
+`function MyForm() {
+    const [myCar, setMyCar] = useState("volvo");
+
+    const handleChange = (event) => {
+        setMyCar(event.target.value)
+    }
+
+    return (
+        <form>
+        <select value={myCar} onChnage={handleChange}>
+        <option value="Ford">Ford</option>
+        <option value="Volvo">Volvo</option>
+        <option value="Fiat">Fiat</option>
+        </select>
+        </form>
+    )
+}
+`
+# NB
+For the initial selection to work the value "Volvo" in both useState("Volvo") and option value="Volvo" `needs to be identical` for the initial selection to work correctly.
+# Reason for this
+- `Case Sensitivity`:JavaScript is case-sensitive.This means that "Volvo" and "volvo" are considered different values.
+- `State Comparison`: When the component renders, React compares the value in the myCar state with the value attribute of each option.If they match excatly, that option will be selected by default.
+By making these slight changes to <textarea> and <select>, React is able to handle all input elements in the same way
 
 
+# React Router
+Create React App doesn't include page routing
+React Router is the most popular solution.
+
+# Add React Router
+To add React Router in your application, runs this terminal from the root directory of the application.
+
+# Folder Structure
+To create an application with multiple page routes, let's first start with the file structure
+Within the src folder, we'll create a folder named pages with several files:
+src\pages:
+- Layout.js
+- Home.js
+- Blogs.js
+- Contact.js
+- NoPage.js
+
+Each file will contain a very basic React component
+# Basic Usage
+Use React Router to route to pages based on URL
+`javaScript
+import ReactDOM from "react-dom/client";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Layout from "./pages/Layout";
+import Home from "./pages/Home";
+import Blogs from "./pages/Blogs";
+import Contact from "./pages/Contact";
+import NoPage from "./pages/NoPage";
 
 
-
-
-
-
-
-
+export default function App() {
+    return (
+        <BrowserRouter>
+           <Routes>
+             <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="blogs" element={<Blogs />} />
+                <Route path="contact" element={<Contact />} />
+                <Route path="*" element={<NoPage />} />
+             </Route>
+           </Routes>
+        </BrowserRouter>
+    );
+}
+`
+# Example Explained
+We wrap our content first with <BrowserRouter>.
+Then we define our <Routes>.An application can have multiple <Routes>.
+Our basic example uses only one.
+<Route>s can be nested.The first <Route> has a path of / and renderd the Layout component.
+The nested <Route>s inherit and add to the parent route.So the blogs path is combined with the parent and becomes /blogs.
+The Home component route does not have a path but has an index attribute.That specifies this route as the default route for the parent route which is /
+Setting the path to * will act as a catch-all for any undefined URLs.This is greate for a 404 error page.
 
 
 
